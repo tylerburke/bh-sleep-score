@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 // Create an array of 30 minute increments from 0-24hrs
 const DURATIONS = [];
 for (let i = 0; i <= 48; i++) {
@@ -5,6 +7,25 @@ for (let i = 0; i <= 48; i++) {
 }
 
 const SleepScore = () => {
+  const [durationInBed, setDurationInBed] = useState(0);
+  const [durationAsleep, setDurationAsleep] = useState(0);
+  const [outputText, setOutputText] = useState('output');
+
+  function calculateScore() {
+    // Check for valid inputs
+    if (!durationInBed || !durationAsleep) {
+      setOutputText('Oops there was a problem. Unable to calculate a score.');
+      return;
+    }
+
+    // Calculate score up to 1 decimal place.
+    const score = +Number.parseFloat(
+      100 * (durationAsleep / durationInBed)
+    ).toFixed(1);
+
+    setOutputText(`Score: ${score}`);
+  }
+
   return (
     <div className="container">
       <header>
@@ -14,11 +35,21 @@ const SleepScore = () => {
         <form
           onSubmit={(e) => {
             e.preventDefault();
+            calculateScore();
           }}
         >
           <label htmlFor="durationInBed">
             Duration in bed
-            <select id="durationInBed">
+            <select
+              id="durationInBed"
+              value={durationInBed}
+              onChange={(e) => {
+                setDurationInBed(+e.target.value);
+              }}
+              onBlur={(e) => {
+                setDurationInBed(+e.target.value);
+              }}
+            >
               {DURATIONS.map((duration) => (
                 <option key={duration.toString()} value={duration}>
                   {duration / 60} hours
@@ -29,7 +60,16 @@ const SleepScore = () => {
 
           <label htmlFor="durationAsleep">
             Duration asleep
-            <select id="durationAsleep">
+            <select
+              id="durationAsleep"
+              value={durationAsleep}
+              onChange={(e) => {
+                setDurationAsleep(+e.target.value);
+              }}
+              onBlur={(e) => {
+                setDurationAsleep(+e.target.value);
+              }}
+            >
               {DURATIONS.map((duration) => (
                 <option key={duration.toString()} value={duration}>
                   {duration / 60} hours
@@ -41,7 +81,7 @@ const SleepScore = () => {
           <button type="submit">Calculate</button>
         </form>
 
-        <div className="output"></div>
+        <div className="output">{outputText}</div>
       </main>
     </div>
   );
