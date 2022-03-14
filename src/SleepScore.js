@@ -32,16 +32,16 @@ const SleepScore = () => {
         },
         body: JSON.stringify({ score: score, timestamp: Date.now() }),
       });
-      const resBody = await res.json(res);
+      const resBody = await res.json();
 
-      if (resBody.score) {
-        setOutputText(`Score: ${score}`);
+      if (res.ok) {
+        setOutputText(`Score: ${resBody.score}`);
       } else {
-        setOutputText('Error in score response');
+        setOutputText(`Oops! There was an problem. Please try again.`);
       }
     } catch (err) {
       console.log(err);
-      setOutputText('Error');
+      setOutputText('There was an error. Please try again.');
     }
   }
 
