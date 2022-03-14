@@ -78,7 +78,9 @@ const SleepScore = () => {
             </select>
           </label>
 
-          <button type="submit">Calculate</button>
+          <button type="submit" disabled={!durationInBed || !durationAsleep}>
+            Calculate
+          </button>
         </form>
 
         <div className="output">{outputText}</div>
