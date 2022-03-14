@@ -1,0 +1,89 @@
+@color-main: #0f2531;
+@color-theme: #18c3e5;
+@color-accent: #005490;
+@color-error: #990000;
+@font-family: arial, tahoma, sans-serif;
+
+body {
+  font-family: @font-family;
+  font-size: 20px;
+  color: @color-main;
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
+  color: @color-theme;
+  text-align: center;
+  margin:0.8em 0 0.2em;
+}
+
+.container {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+header {
+  border-bottom: 1px solid @color-main;
+}
+main {
+  padding-top: 1.8em;
+}
+
+form {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-end;
+  flex-direction: column;
+
+  @media screen and (min-width: 540px) {
+    flex-direction: row;
+  }
+
+  label {
+    margin: 10px auto;
+    font-weight: 600;
+  }
+
+  select {
+    display: block;
+    margin: 0.2em 0 0;
+    padding: 4px;
+    width: 100%;
+    font-size: 0.8em;
+  }
+
+  button {
+    border: 0;
+    margin: 10px auto;
+    padding: 0.6em 1em;
+    font-weight: 600;
+    font-size: 0.8em;
+
+    &:not(:disabled) {
+      background-color: @color-theme;
+      color: @color-main;
+
+      &:hover {
+        cursor: pointer;
+        background-color: @color-accent;
+        color: #ffffff;
+      }
+    }
+  }
+}
+
+.output {
+  margin: 2em 0;
+  text-align: center;
+  font-size: 1.5em;
+
+  .success {
+    font-size: 2em;
+  }
+
+  .error {
+    color: @color-error;
+  }
+}

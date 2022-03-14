@@ -51,7 +51,9 @@ const SleepScore = () => {
         setOutputText(`${resBody.score}`);
       } else {
         setStatus('error');
-        setOutputText(`Oops! There was an problem. Please try again.`);
+        setOutputText(
+          `There was an problem saving the score. Please try again.`
+        );
       }
     } catch (err) {
       console.log(err);
