@@ -11,7 +11,7 @@ const SleepScore = () => {
   const [durationAsleep, setDurationAsleep] = useState(0);
   const [outputText, setOutputText] = useState('output');
 
-  function calculateScore() {
+  async function calculateScore() {
     // Check for valid inputs
     if (!durationInBed || !durationAsleep) {
       setOutputText('Oops there was a problem. Unable to calculate a score.');
@@ -23,7 +23,26 @@ const SleepScore = () => {
       100 * (durationAsleep / durationInBed)
     ).toFixed(1);
 
-    setOutputText(`Score: ${score}`);
+    try {
+      // Post score to api "save" endpoint
+      const res = await fetch('/api/save', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ score: score, timestamp: Date.now() }),
+      });
+      const resBody = await res.json(res);
+
+      if (resBody.score) {
+        setOutputText(`Score: ${score}`);
+      } else {
+        setOutputText('Error in score response');
+      }
+    } catch (err) {
+      console.log(err);
+      setOutputText('Error');
+    }
   }
 
   return (
