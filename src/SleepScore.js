@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 // Create an array of 30 minute increments from 0-24hrs
 const DURATIONS = [];
@@ -11,6 +11,13 @@ const SleepScore = () => {
   const [durationAsleep, setDurationAsleep] = useState(0);
   const [outputText, setOutputText] = useState('output');
   const [status, setStatus] = useState('');
+
+  useEffect(() => {
+    // Reset the status when both durations are empty
+    if (!durationInBed && !durationAsleep) {
+      setStatus('');
+    }
+  }, [durationInBed, durationAsleep]);
 
   async function calculateScore() {
     // Check for valid inputs
