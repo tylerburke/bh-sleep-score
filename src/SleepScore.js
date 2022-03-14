@@ -107,6 +107,7 @@ const SleepScore = () => {
               onBlur={(e) => {
                 setDurationInBed(+e.target.value);
               }}
+              data-test="inBedSelect"
             >
               {DURATIONS.map((duration) => (
                 <option key={duration.toString()} value={duration}>
@@ -127,6 +128,7 @@ const SleepScore = () => {
               onBlur={(e) => {
                 setDurationAsleep(+e.target.value);
               }}
+              data-test="asleepSelect"
             >
               {DURATIONS.map((duration) => (
                 <option key={duration.toString()} value={duration}>
@@ -136,12 +138,18 @@ const SleepScore = () => {
             </select>
           </label>
 
-          <button type="submit" disabled={!durationInBed || !durationAsleep}>
+          <button
+            type="submit"
+            disabled={!durationInBed || !durationAsleep}
+            data-test="submitButton"
+          >
             Calculate
           </button>
         </form>
 
-        <div className="output">{output}</div>
+        <div className="output" data-test="output">
+          {output}
+        </div>
       </main>
     </div>
   );

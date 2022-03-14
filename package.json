@@ -4,7 +4,9 @@
   "description": "",
   "scripts": {
     "start": "parcel src/index.html",
-    "build": "parcel build src/index.html"
+    "build": "parcel build src/index.html",
+    "test:cypress": "cypress open",
+    "test": "cypress run"
   },
   "author": "",
   "license": "ISC",
