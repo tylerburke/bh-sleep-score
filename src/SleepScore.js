@@ -10,13 +10,18 @@ const SleepScore = () => {
   const [durationInBed, setDurationInBed] = useState(0);
   const [durationAsleep, setDurationAsleep] = useState(0);
   const [outputText, setOutputText] = useState('output');
+  const [status, setStatus] = useState('');
 
   async function calculateScore() {
     // Check for valid inputs
     if (!durationInBed || !durationAsleep) {
+      setStatus('error');
       setOutputText('Oops there was a problem. Unable to calculate a score.');
       return;
     }
+
+    //Set loading status during calculation and api call
+    setStatus('loading');
 
     // Calculate score up to 1 decimal place.
     const score = +Number.parseFloat(
@@ -35,14 +40,39 @@ const SleepScore = () => {
       const resBody = await res.json();
 
       if (res.ok) {
-        setOutputText(`Score: ${resBody.score}`);
+        setStatus('success');
+        setOutputText(`${resBody.score}`);
       } else {
+        setStatus('error');
         setOutputText(`Oops! There was an problem. Please try again.`);
       }
     } catch (err) {
       console.log(err);
+      setStatus('error');
       setOutputText('There was an error. Please try again.');
     }
+  }
+
+  // Change the output based on status
+  let output;
+  switch (status) {
+    case 'loading':
+      output = <p className="loading">Loading...</p>;
+      break;
+    case 'success':
+      output = <p className="success">{outputText}</p>;
+      break;
+    case 'error':
+      output = <p className="error">{outputText}</p>;
+      break;
+    default:
+      output = (
+        <p>
+          Select the duration in bed and duration asleep and click Calculate to
+          see the score.
+        </p>
+      );
+      break;
   }
 
   return (
@@ -102,7 +132,7 @@ const SleepScore = () => {
           </button>
         </form>
 
-        <div className="output">{outputText}</div>
+        <div className="output">{output}</div>
       </main>
     </div>
   );
